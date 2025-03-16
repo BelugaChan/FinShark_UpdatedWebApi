@@ -44,16 +44,24 @@ namespace api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateStockRequestDto requestStockDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var stockDto = await stockService.AddAsync(requestStockDto);
             return CreatedAtAction(nameof(GetById), new { id = stockDto.Id }, stockDto);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update([FromBody] UpdateStockRequestDto requestDto)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateStockRequestDto requestDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             try
             {
-                await stockService.UpdateAsync(requestDto);
+                await stockService.UpdateAsync(id, requestDto);
                 return NoContent();
             }
             catch (KeyNotFoundException)
@@ -62,7 +70,7 @@ namespace api.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             try
