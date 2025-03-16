@@ -87,7 +87,11 @@ namespace api.Services
             var stock = stockDto.ToStockFromUpdateDto();
             var currentStock = await stockRepository.GetByIdAsync(stock.Id);
             if (currentStock is not null)
+            {
+                stock.Comments = currentStock.Comments; //REMOVE IT FROM HERE
                 await stockRepository.UpdateAsync(stock);
+            }
+
             else
                 await stockRepository.AddAsync(stock);
 

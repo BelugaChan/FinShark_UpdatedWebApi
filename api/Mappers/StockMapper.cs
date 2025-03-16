@@ -64,8 +64,7 @@ namespace api.Mappers
                 Purchase = updateDto.Purchase,
                 LastDiv = updateDto.LastDiv,
                 Industry = updateDto.Industry,
-                MarketCap = updateDto.MarketCap,
-                Comments = updateDto.Comments
+                MarketCap = updateDto.MarketCap
             };
         }
     }
